@@ -64,6 +64,11 @@ Simulated Share = AVERAGE(fact_response_evaluation[is_simulated])
 ## 6. Refresh
 Re-run `POST /api/warehouse/refresh` and `POST /api/export/run`, then in Power BI click Home > Refresh. If you moved the `exports` folder: Transform data > Data source settings > Change source.
 
+## 6a. Share a filtered review in the web app
+The app's **Analytics & Reports** page reads the warehouse directly and offers dataset, experiment, strategy, verdict, and execution-mode slicers. Filter selections are encoded in the page URL: use **Share review** or **Copy insight summary** to share the selected view and its generated interpretation. Add an analyst note before copying or downloading a review. Use **Print / Save PDF** for a static report.
+
+This in-app report is separate from the PBIX file. For Power BI Desktop, share the `.pbix` file or publish it to Power BI Service (subject to your organization's licensing and sharing permissions). The CSV export itself does not publish or share the PBIX report.
+
 ## 7. Troubleshooting
 | Problem | Fix |
 |---|---|

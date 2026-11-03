@@ -1,16 +1,57 @@
-# React + Vite
+# AI Reliability Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+The frontend is a React application built with Vite. Its pages use the FastAPI
+service in `../backend` through the `/api` development proxy.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Open two terminals from the project root.
 
-## React Compiler
+### Backend
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```powershell
+cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
 
-## Expanding the Oxlint configuration
+### Frontend
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+```powershell
+cd frontend
+npm ci
+npm run dev
+```
+
+Open the Vite URL printed in the frontend terminal (normally
+`http://localhost:5173`). Keep both processes running. The backend creates any
+missing database tables on startup and uses the existing SQLite database
+without deleting its data.
+
+## First use
+
+1. Confirm the header reports **Backend Online**.
+2. In **Experiment Studio**, load the sample benchmark and pilot evidence corpus
+   if they are not already present.
+3. Run an experiment in **Demo fixtures** mode to try the workflow without
+   configuring a model provider.
+4. Evaluate the experiment, review flagged responses, and inspect stored RAG
+   retrievals in **Evaluation Center** and **RAG Inspector**.
+5. Refresh the **Data Warehouse** before generating Power BI CSV exports in
+   **Export Center**.
+6. Use **Analytics & Reports** to slice the current warehouse snapshot by
+   dataset, experiment, strategy, verdict, or execution mode. The URL preserves
+   those filters; share the filtered link or copy/download the generated
+   insight review. Use Print / Save PDF for a static copy.
+
+Demo answers are simulated fixtures, not real model output. The Answer Checker
+and evaluation pages describe their heuristic limitations in the UI.
+
+## Verify the frontend
+
+```powershell
+npm run lint
+npm run build
+```

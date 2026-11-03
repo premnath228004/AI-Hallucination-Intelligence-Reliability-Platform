@@ -1,12 +1,25 @@
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Card, EmptyState, PageHeader } from '../components/ui'
 import { NAV } from '../nav'
 
 export default function NotBuilt() {
   const { pathname } = useLocation()
-  const item = NAV.find((n) => n.to === pathname)
+  const cleanPath = pathname.replace(/\/+$/, '') || '/'
+  const item = NAV.find((n) => n.to === cleanPath)
 
-  if (!item) return <PageHeader title="Page not found" description="This address does not exist." />
+  if (!item) {
+    return (
+      <>
+        <PageHeader title="Page not found" description={`There is no page at "${pathname}".`} />
+        <Link
+          to="/"
+          className="inline-flex rounded-lg bg-teal-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-teal-800"
+        >
+          Go to Overview
+        </Link>
+      </>
+    )
+  }
 
   return (
     <>
