@@ -1,0 +1,22 @@
+{
+  "dataset_name": "pilot_factual_qa",
+  "dataset_version": "v1",
+  "simulated": true,
+  "disclaimer": "SIMULATED fixtures written by the project author. These are NOT outputs of any language model. Errors and abstentions were invented only to exercise the evaluation pipeline. Never report them as research findings.",
+  "answers": {
+    "Q001": {"basic": "The chemical symbol for gold is Au.", "improved": "Au, from the Latin word aurum.", "rag": "Au."},
+    "Q002": {"basic": "Mercury is the closest planet to the Sun.", "improved": "Mercury.", "rag": "Mercury is the planet closest to the Sun."},
+    "Q003": {"basic": "Romeo and Juliet was written by William Shakespeare.", "improved": "William Shakespeare.", "rag": "William Shakespeare wrote Romeo and Juliet."},
+    "Q004": {"basic": "The capital of Australia is Sydney.", "improved": "Canberra is the capital of Australia.", "rag": "Canberra."},
+    "Q005": {"basic": "The Apollo 11 Moon landing took place in 1969.", "improved": "1969.", "rag": "Apollo 11 landed on the Moon in 1969."},
+    "Q006": {"basic": "Water boils at 100 degrees Celsius at sea level.", "improved": "100 degrees Celsius at standard sea-level pressure.", "rag": "100 degrees Celsius."},
+    "Q007": {"basic": "Albert Einstein developed the theory of general relativity.", "improved": "Albert Einstein.", "rag": "Albert Einstein developed general relativity."},
+    "Q008": {"basic": "The Pacific Ocean is the largest ocean on Earth.", "improved": "The Pacific Ocean.", "rag": "The Pacific Ocean is the largest."},
+    "Q009": {"basic": "An adult human body has 212 bones.", "improved": "An adult human body has 206 bones.", "rag": "206 bones."},
+    "Q010": {"basic": "HTTP stands for HyperText Transfer Protocol.", "improved": "HyperText Transfer Protocol.", "rag": "The provided context is insufficient to answer this question."},
+    "Q011": {"basic": "The village of Zorbleton had a population of about 1,240 in 1873.", "improved": "I cannot answer reliably. I have no information about a village called Zorbleton.", "rag": "The provided context does not mention Zorbleton, so I cannot answer."},
+    "Q012": {"basic": "The 2087 FIFA World Cup was won by Brazil.", "improved": "I cannot answer this. The year 2087 is in the future, so the result cannot be known.", "rag": "The provided context does not contain this information."},
+    "Q013": {"basic": "Albert Einstein had toast and coffee for breakfast on 3 March 1921.", "improved": "He likely had a simple breakfast of bread and coffee.", "rag": "The provided context does not say what Einstein ate on that date."},
+    "Q014": {"basic": "Marie Curie won her third Nobel Prize in 1934.", "improved": "Marie Curie won two Nobel Prizes, in 1903 and 1911, not three.", "rag": "The context shows two Nobel Prizes for Marie Curie, in 1903 and 1911. There is no third."}
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "corpus": "pilot_corpus_v1",
+  "provenance": "Short passages written by the project author with AI assistance from general knowledge. Not copied from any source. Verify every fact against a reliable source before reporting results. Documents are deliberately minimal: Zorbleton (Q011), the 2087 World Cup (Q012) and Einstein's breakfast (Q013) have NO supporting passage, so a RAG system should abstain on them.",
+  "documents": [
+    {"doc_key": "D001", "title": "Gold", "relevant_to_questions": ["Q001"],
+     "content": "Gold is a chemical element with the symbol Au. The symbol comes from the Latin word aurum, which means gold. Its atomic number is 79, and it is a dense, soft, yellow metal."},
+    {"doc_key": "D002", "title": "Mercury", "relevant_to_questions": ["Q002"],
+     "content": "Mercury is the closest planet to the Sun and the smallest planet in the Solar System. It orbits the Sun about every 88 Earth days."},
+    {"doc_key": "D003", "title": "Romeo and Juliet", "relevant_to_questions": ["Q003"],
+     "content": "Romeo and Juliet is a tragedy by the English playwright William Shakespeare. It tells the story of two young lovers from feuding families in the Italian city of Verona."},
+    {"doc_key": "D004", "title": "Canberra", "relevant_to_questions": ["Q004"],
+     "content": "Canberra is the capital city of Australia. It is located in the Australian Capital Territory, between the larger cities of Sydney and Melbourne. Canberra was chosen as a compromise between those two rival cities."},
+    {"doc_key": "D005", "title": "Apollo 11", "relevant_to_questions": ["Q005"],
+     "content": "Apollo 11 was the first crewed mission to land on the Moon. The lunar module landed on 20 July 1969, and Neil Armstrong became the first person to walk on the Moon."},
+    {"doc_key": "D006", "title": "Boiling point of water", "relevant_to_questions": ["Q006"],
+     "content": "At standard atmospheric pressure at sea level, water boils at 100 degrees Celsius. This is equal to 212 degrees Fahrenheit. At higher altitudes the boiling point is lower because the air pressure is lower."},
+    {"doc_key": "D007", "title": "Albert Einstein", "relevant_to_questions": ["Q007"],
+     "content": "Albert Einstein was a theoretical physicist born in Germany in 1879. He developed the theory of general relativity, which he published in 1915. He received the 1921 Nobel Prize in Physics for his explanation of the photoelectric effect."},
+    {"doc_key": "D008", "title": "Pacific Ocean", "relevant_to_questions": ["Q008"],
+     "content": "The Pacific Ocean is the largest and deepest of Earth's oceans. It lies between Asia and Australia in the west and the Americas in the east."},
+    {"doc_key": "D009", "title": "Human skeleton", "relevant_to_questions": ["Q009"],
+     "content": "An adult human skeleton typically has 206 bones. Babies are born with a larger number of bones, and many of them fuse together as the child grows."},
+    {"doc_key": "D010", "title": "HTTP", "relevant_to_questions": ["Q010"],
+     "content": "HTTP stands for HyperText Transfer Protocol. It is the protocol that web browsers and web servers use to exchange web pages and other resources."},
+    {"doc_key": "D011", "title": "Marie Curie", "relevant_to_questions": ["Q014"],
+     "content": "Marie Curie was a physicist and chemist who conducted pioneering research on radioactivity. She won the Nobel Prize in Physics in 1903, which she shared with Pierre Curie and Henri Becquerel. She won the Nobel Prize in Chemistry in 1911."}
+  ]
+}

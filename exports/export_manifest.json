@@ -1,0 +1,132 @@
+{
+  "exported_at_utc": "2026-11-02 09:12:33",
+  "warehouse_run_id": 3,
+  "all_integrity_ok": true,
+  "note": "Snapshot of the warehouse at export time. Power BI shows this data only after a manual refresh; it is not live.",
+  "files": [
+    {
+      "file": "dim_dataset.csv",
+      "table": "dw_dim_dataset",
+      "primary_key": "dataset_key",
+      "rows_in_database": 1,
+      "rows_in_csv": 1,
+      "integrity_ok": true,
+      "sha256": "36265dae3164640ac176a4fc5c3e111ba3a0e2da09c4603405c6f88b4ef60f8d",
+      "columns": [
+        "dataset_key",
+        "dataset_id",
+        "dataset_name",
+        "dataset_version"
+      ]
+    },
+    {
+      "file": "dim_question.csv",
+      "table": "dw_dim_question",
+      "primary_key": "question_key",
+      "rows_in_database": 14,
+      "rows_in_csv": 14,
+      "integrity_ok": true,
+      "sha256": "14e8957d1b3801362220756a74e4b6171cbdf9e7a6d462c4373742e95109b552",
+      "columns": [
+        "question_key",
+        "question_id",
+        "dataset_key",
+        "external_id",
+        "question_text",
+        "category",
+        "is_answerable"
+      ]
+    },
+    {
+      "file": "dim_strategy.csv",
+      "table": "dw_dim_strategy",
+      "primary_key": "strategy_key",
+      "rows_in_database": 3,
+      "rows_in_csv": 3,
+      "integrity_ok": true,
+      "sha256": "94c578a12580144847ef5287bdf0562489ea998e18704d456727fe6dc2220c2d",
+      "columns": [
+        "strategy_key",
+        "strategy_name",
+        "strategy_label"
+      ]
+    },
+    {
+      "file": "dim_experiment.csv",
+      "table": "dw_dim_experiment",
+      "primary_key": "experiment_key",
+      "rows_in_database": 3,
+      "rows_in_csv": 3,
+      "integrity_ok": true,
+      "sha256": "5b57b689bfa56a4a263ff8d57fd7d719aa7535ce6be3f076f729e6a388bccf33",
+      "columns": [
+        "experiment_key",
+        "experiment_id",
+        "experiment_name",
+        "execution_mode",
+        "model_name",
+        "prompt_version",
+        "is_simulated",
+        "created_at"
+      ]
+    },
+    {
+      "file": "dim_verdict.csv",
+      "table": "dw_dim_verdict",
+      "primary_key": "verdict_key",
+      "rows_in_database": 6,
+      "rows_in_csv": 6,
+      "integrity_ok": true,
+      "sha256": "4df41aadef5e58505a618bd703c7a4def655c804ae810fbb1cba22ee0bdb8175",
+      "columns": [
+        "verdict_key",
+        "verdict",
+        "is_correct",
+        "verdict_group"
+      ]
+    },
+    {
+      "file": "fact_response_evaluation.csv",
+      "table": "dw_fact_response_evaluation",
+      "primary_key": "response_id",
+      "rows_in_database": 84,
+      "rows_in_csv": 84,
+      "integrity_ok": true,
+      "sha256": "7a690586c8c82a8e334c1268c248d7124a0a11524182459705093d12ce131002",
+      "columns": [
+        "response_id",
+        "experiment_key",
+        "question_key",
+        "strategy_key",
+        "verdict_key",
+        "is_correct",
+        "needs_review",
+        "human_reviewed",
+        "evaluator_type",
+        "evaluator_version",
+        "answer_length_chars",
+        "latency_ms",
+        "retrieved_count",
+        "retrieval_top_score",
+        "retrieval_hit",
+        "is_simulated",
+        "loaded_run_id"
+      ]
+    },
+    {
+      "file": "etl_run_log.csv",
+      "table": "dw_etl_run_log",
+      "primary_key": "run_id",
+      "rows_in_database": 3,
+      "rows_in_csv": 3,
+      "integrity_ok": true,
+      "sha256": "f3aefbcdc4ad4562da2723af07bd85f26979dea6b1933ac5674bf8861b396040",
+      "columns": [
+        "run_id",
+        "started_at",
+        "finished_at",
+        "status"
+      ]
+    }
+  ]
+}

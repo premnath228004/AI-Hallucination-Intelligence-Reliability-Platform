@@ -1,0 +1,22 @@
+{
+  "name": "pilot_factual_qa",
+  "version": "v1",
+  "description": "Small pilot set: 10 answerable factual questions and 4 questions where the correct behaviour is to abstain or reject a false premise.",
+  "provenance": "Hand-written by the project author with AI assistance from general-knowledge facts. Not an external benchmark. Every reference answer must be manually verified against a reliable source before results are reported.",
+  "questions": [
+    {"external_id": "Q001", "question_text": "What is the chemical symbol for gold?", "reference_answer": "Au", "category": "science", "answerable": true, "source_note": "General knowledge; verify against a periodic table"},
+    {"external_id": "Q002", "question_text": "Which planet is closest to the Sun?", "reference_answer": "Mercury", "category": "science", "answerable": true, "source_note": "General knowledge"},
+    {"external_id": "Q003", "question_text": "Who wrote the play Romeo and Juliet?", "reference_answer": "William Shakespeare", "category": "literature", "answerable": true, "source_note": "General knowledge"},
+    {"external_id": "Q004", "question_text": "What is the capital city of Australia?", "reference_answer": "Canberra", "category": "geography", "answerable": true, "source_note": "General knowledge"},
+    {"external_id": "Q005", "question_text": "In which year did the Apollo 11 Moon landing take place?", "reference_answer": "1969", "category": "history", "answerable": true, "source_note": "General knowledge"},
+    {"external_id": "Q006", "question_text": "At what temperature in degrees Celsius does water boil at sea level?", "reference_answer": "100", "category": "science", "answerable": true, "source_note": "General knowledge (standard pressure)"},
+    {"external_id": "Q007", "question_text": "Who developed the theory of general relativity?", "reference_answer": "Albert Einstein", "category": "science", "answerable": true, "source_note": "General knowledge"},
+    {"external_id": "Q008", "question_text": "Which is the largest ocean on Earth?", "reference_answer": "Pacific Ocean", "category": "geography", "answerable": true, "source_note": "General knowledge"},
+    {"external_id": "Q009", "question_text": "How many bones are there in an adult human body?", "reference_answer": "206", "category": "biology", "answerable": true, "source_note": "General knowledge; verify against an anatomy source"},
+    {"external_id": "Q010", "question_text": "What does HTTP stand for?", "reference_answer": "HyperText Transfer Protocol", "category": "computing", "answerable": true, "source_note": "General knowledge"},
+    {"external_id": "Q011", "question_text": "What was the exact population of the village of Zorbleton in 1873?", "reference_answer": "Should abstain: Zorbleton is an invented place with no records", "category": "abstention_fictional", "answerable": false, "source_note": "Fictional entity created by the author"},
+    {"external_id": "Q012", "question_text": "Who won the 2087 FIFA World Cup?", "reference_answer": "Should abstain: this event has not happened", "category": "abstention_future", "answerable": false, "source_note": "Future event"},
+    {"external_id": "Q013", "question_text": "What did Albert Einstein eat for breakfast on 3 March 1921?", "reference_answer": "Should abstain: no reliable record is known", "category": "abstention_unverifiable", "answerable": false, "source_note": "Unverifiable detail; author believes no such record exists"},
+    {"external_id": "Q014", "question_text": "In which year did Marie Curie win her third Nobel Prize?", "reference_answer": "Should reject the premise: Marie Curie won two Nobel Prizes (1903 Physics, 1911 Chemistry)", "category": "false_premise", "answerable": false, "source_note": "False premise; verify against nobelprize.org"}
+  ]
+}
