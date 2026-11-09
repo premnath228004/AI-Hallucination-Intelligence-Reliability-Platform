@@ -1,0 +1,10 @@
+**/node_modules
+**/__pycache__
+**/.venv
+backend/venv
+.git
+frontend/dist
+data/*.db
+exports
+powerbi
+docs

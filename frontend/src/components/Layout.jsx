@@ -51,15 +51,6 @@ export default function Layout() {
     }
   }, [])
 
-  useEffect(() => {
-    setMobileOpen(false)
-  }, [location.pathname])
-
-  const mode =
-    health.state === 'ok'
-      ? health.data?.default_execution_mode
-      : null
-
   const currentPage =
     NAV.find((item) => item.to === location.pathname) || NAV[0]
 
@@ -92,6 +83,7 @@ export default function Layout() {
             key={item.to}
             to={item.to}
             end={item.to === '/'}
+            onClick={() => setMobileOpen(false)}
             className={({ isActive }) =>
               `group flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition-all duration-200 ${
                 isActive

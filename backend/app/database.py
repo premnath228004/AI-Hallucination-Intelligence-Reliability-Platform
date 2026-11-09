@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from sqlalchemy import create_engine, event
@@ -5,7 +6,7 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 # backend/app/database.py -> parents[2] is the project root
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DB_PATH = PROJECT_ROOT / "data" / "hallucination.db"
+DB_PATH = Path(os.getenv("HALLUCINATION_DB_PATH", str(PROJECT_ROOT / "data" / "hallucination.db")))
 DATABASE_URL = f"sqlite:///{DB_PATH.as_posix()}"
 
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})

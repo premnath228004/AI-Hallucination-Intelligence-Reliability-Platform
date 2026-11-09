@@ -381,12 +381,13 @@ export function EvaluationCenter() {
           <section className="grid gap-4 md:grid-cols-3">
             {strategyEntries.map(([strategy, stats]) => (
               <Card key={strategy} className="relative overflow-hidden">
-                <div className="flex items-start justify-between"><div><div className="text-xs font-bold uppercase tracking-wider text-slate-400">{strategy} strategy</div><div className="mt-3 text-3xl font-bold tracking-tight text-slate-900"><Percent value={stats.accuracy_provisional} /></div><div className="mt-1 text-xs text-slate-500">Provisional accuracy · {stats.evaluated}/{stats.responses} evaluated</div></div><div className="rounded-xl bg-blue-50 p-3 text-blue-700"><Activity size={20} /></div></div>
+                <div className="flex items-start justify-between"><div><div className="text-xs font-bold uppercase tracking-wider text-slate-400">{strategy} strategy</div><div className="mt-3 text-3xl font-bold tracking-tight text-slate-900"><Percent value={stats.accuracy_provisional} /></div><div className="mt-1 text-xs text-slate-500">Provisional accuracy · {stats.evaluated}/{stats.responses} evaluated</div><div className="mt-1 text-xs font-medium text-slate-500">95% Wilson CI: {stats.accuracy_95ci_wilson ? `${(stats.accuracy_95ci_wilson[0] * 100).toFixed(1)}%–${(stats.accuracy_95ci_wilson[1] * 100).toFixed(1)}%` : '—'}</div></div><div className="rounded-xl bg-blue-50 p-3 text-blue-700"><Activity size={20} /></div></div>
                 {stats.accuracy_95ci_wilson && <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-blue-600" style={{ width: `${(stats.accuracy_provisional || 0) * 100}%` }} /></div>}
                 <div className="mt-3 flex justify-between text-xs text-slate-500"><span>{stats.pending_manual_review} pending review</span><span>{stats.human_reviewed} human reviewed</span></div>
               </Card>
             ))}
           </section>
+          <p className="text-xs text-slate-500">14 questions per strategy, no significance claimed.</p>
           {summary.data.summary.limitations?.length > 0 && (
             <Notice tone="amber"><strong>Interpret results carefully.</strong> {summary.data.summary.limitations.join(' ')}</Notice>
           )}

@@ -28,6 +28,23 @@ function formatNumber(value) {
   return value == null ? '—' : Number(value).toLocaleString()
 }
 
+function wilsonInterval(correct, total) {
+  if (!total) return null
+  const z = 1.96
+  const proportion = correct / total
+  const denominator = 1 + (z * z) / total
+  const center = (proportion + (z * z) / (2 * total)) / denominator
+  const margin = (z * Math.sqrt((proportion * (1 - proportion) + (z * z) / (4 * total)) / total)) / denominator
+  return [Math.max(0, center - margin), Math.min(1, center + margin)]
+}
+
+function accuracyWithInterval(accuracy, correct, total) {
+  const interval = wilsonInterval(correct, total)
+  return interval
+    ? `${formatPercent(accuracy)} (95% Wilson CI ${formatPercent(interval[0])}–${formatPercent(interval[1])})`
+    : formatPercent(accuracy)
+}
+
 function Metric({ label, value, note, icon: Icon, tone = 'blue' }) {
   const tones = {
     blue: 'bg-blue-50 text-blue-700',
@@ -73,12 +90,12 @@ function HorizontalBars({ items, labelKey, valueKey, formatValue, percent = fals
           <div key={item[labelKey]}>
             <div className="mb-1.5 flex items-center justify-between gap-3 text-sm">
               <span className="truncate font-medium text-slate-700">{item[labelKey]}</span>
-              <span className="shrink-0 text-xs font-semibold tabular-nums text-slate-500">{formatValue(value)}</span>
+              <span className="shrink-0 text-xs font-semibold tabular-nums text-slate-500">{formatValue(value, item)}</span>
             </div>
             <div
               className="h-3 overflow-hidden rounded-full bg-slate-100"
               role="img"
-              aria-label={`${item[labelKey]}: ${formatValue(value)}`}
+              aria-label={`${item[labelKey]}: ${formatValue(value, item)}`}
             >
               <div
                 className="h-full rounded-full transition-all duration-500"
@@ -148,7 +165,7 @@ export default function AnalyticsReport() {
       .filter((item) => item.accuracy != null)
       .sort((left, right) => right.accuracy - left.accuracy)[0]
     if (strategy) {
-      findings.push(`${strategy.label} has the highest measured provisional accuracy at ${formatPercent(strategy.accuracy)} (${strategy.correct}/${strategy.responses} responses).`)
+      findings.push(`${strategy.label} has the highest measured provisional accuracy at ${accuracyWithInterval(strategy.accuracy, strategy.correct, strategy.responses)} (${strategy.correct}/${strategy.responses} responses).`)
     }
     findings.push(`${metrics.needs_review} response(s) are flagged for review; ${metrics.human_reviewed} have a recorded human verdict.`)
     findings.push(`${formatPercent(metrics.simulated_share)} of the selected responses are simulated. ${metrics.simulated_responses ? 'Do not interpret these as real model outputs.' : 'The selection contains no simulated responses.'}`)
@@ -294,7 +311,7 @@ export default function AnalyticsReport() {
 
           <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
             <Metric label="Responses" value={formatNumber(metrics.total_responses)} note="Filtered warehouse rows" icon={Activity} />
-            <Metric label="Provisional accuracy" value={formatPercent(metrics.accuracy_provisional)} note={`${metrics.correct_responses} marked correct`} icon={CheckCircle2} tone="green" />
+            <Metric label="Provisional accuracy" value={formatPercent(metrics.accuracy_provisional)} note={`${metrics.correct_responses} marked correct · 95% Wilson CI ${wilsonInterval(metrics.correct_responses, metrics.total_responses)?.map(formatPercent).join('–') || '—'}`} icon={CheckCircle2} tone="green" />
             <Metric label="Needs review" value={formatNumber(metrics.needs_review)} note={`${formatNumber(metrics.human_reviewed)} human-reviewed`} icon={AlertTriangle} tone="amber" />
             <Metric label="Simulated share" value={formatPercent(metrics.simulated_share)} note={`${formatNumber(metrics.simulated_responses)} simulated responses`} icon={Sparkles} tone="violet" />
             <Metric label="Retrieval hit rate" value={formatPercent(metrics.retrieval_hit_rate)} note={`${denominator} labelled RAG retrievals`} icon={Link2} />
@@ -303,8 +320,9 @@ export default function AnalyticsReport() {
           <section className="grid gap-5 xl:grid-cols-[1.25fr_0.75fr]">
             <Card title="Strategy comparison" description="Provisional accuracy for the current slicer selection.">
               <div className="min-h-[280px]">
-                <HorizontalBars items={strategyChart} labelKey="label" valueKey="accuracy" formatValue={formatPercent} percent />
+                <HorizontalBars items={strategyChart} labelKey="label" valueKey="accuracy" formatValue={(value, item) => accuracyWithInterval(value, item.correct, item.responses)} percent />
               </div>
+              <p className="text-xs text-slate-500">14 questions per strategy, no significance claimed.</p>
             </Card>
             <Card title="Verdict distribution" description="Count of response rows by final verdict group.">
               <div className="min-h-[280px]">
@@ -314,7 +332,7 @@ export default function AnalyticsReport() {
           </section>
 
           <section className="grid gap-5 xl:grid-cols-[1fr_0.85fr]">
-            <Card title="Generated insight briefing" description="A concise interpretation of the current selection—review before sharing.">
+            <Card title="Rule-based summary (not AI-generated)" description="A concise interpretation of the current selection—review before sharing.">
               <ul className="space-y-3">
                 {insights.map((insight) => <li key={insight} className="flex gap-2.5 text-sm leading-6 text-slate-700"><Sparkles size={16} className="mt-1 shrink-0 text-blue-600" />{insight}</li>)}
               </ul>

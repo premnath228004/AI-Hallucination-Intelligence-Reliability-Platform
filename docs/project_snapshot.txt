@@ -1,0 +1,297 @@
+﻿PROJECT SNAPSHOT 2026-11-04T10:52:07
+
+=== GIT LOG ===
+e1eb40f Frontend upgrade by VS Code agent
+351078c Merge GitHub repository history
+891e6e1 Build shareable analytics dashboard
+d15a889 Backend: datasets, experiments, evaluation, RAG, warehouse, export, checker
+9b19768 Backend: datasets, experiments, evaluation, RAG, warehouse, export, checker
+b143e7d Backend: datasets, experiments, evaluation, RAG, warehouse, export, checker
+a4699a0 Initial commit
+
+=== GIT STATUS (uncommitted) ===
+?? docs/project_snapshot.txt
+
+=== CHANGED SINCE BACKEND CHECKPOINT 9b19768 ===
+ README.md                                 |    1 +
+ backend/app/warehouse_routes.py           |  172 +-
+ docs/powerbi_guide.md                     |    5 +
+ exports/export_manifest.json              |   22 +-
+ frontend/.gitignore                       |   24 +
+ frontend/.oxlintrc.json                   |    8 +
+ frontend/README.md                        |   57 +
+ frontend/index.html                       |   15 +
+ frontend/package-lock.json                | 2451 +++++++++++++++++++++++++++++
+ frontend/package.json                     |   29 +
+ frontend/public/favicon.svg               |    1 +
+ frontend/public/icons.svg                 |   24 +
+ frontend/src/App.css                      |  184 +++
+ frontend/src/App.jsx                      |   45 +
+ frontend/src/api/client.js                |   11 +
+ frontend/src/assets/hero.png              |  Bin 0 -> 13057 bytes
+ frontend/src/assets/react.svg             |    1 +
+ frontend/src/assets/vite.svg              |    1 +
+ frontend/src/components/ErrorBoundary.jsx |   23 +
+ frontend/src/components/Layout.jsx        |  231 +++
+ frontend/src/components/ui.jsx            |   71 +
+ frontend/src/index.css                    |   66 +
+ frontend/src/main.jsx                     |   16 +
+ frontend/src/nav.js                       |   69 +
+ frontend/src/pages/AnalyticsReport.jsx    |  361 +++++
+ frontend/src/pages/NotBuilt.jsx           |   40 +
+ frontend/src/pages/Overview.jsx           |  402 +++++
+ frontend/src/pages/Workspace.jsx          |  660 ++++++++
+ frontend/vite.config.js                   |   14 +-
+ powerbi/hallucination_dashboard.pbix      |  Bin 91866 -> 91866 bytes
+ 30 files changed, 4989 insertions(+), 15 deletions(-)
+
+=== FILES (size, path) ===
+    5530  backend\app\checker.py
+    3547  backend\app\check_routes.py
+    1383  backend\app\database.py
+    2554  backend\app\dataset_loader.py
+    2090  backend\app\dataset_routes.py
+    3811  backend\app\document_loader.py
+    1960  backend\app\document_routes.py
+   10033  backend\app\evaluation_routes.py
+    3923  backend\app\evaluator.py
+    3076  backend\app\experiment_routes.py
+    3890  backend\app\experiment_runner.py
+    3878  backend\app\export_routes.py
+    2171  backend\app\main.py
+    8681  backend\app\models.py
+    1203  backend\app\prompts.py
+    1997  backend\app\providers.py
+    5218  backend\app\rag_routes.py
+    3590  backend\app\retrieval_routes.py
+    2566  backend\app\retriever.py
+   10333  backend\app\warehouse_etl.py
+    5661  backend\app\warehouse_models.py
+   10581  backend\app\warehouse_routes.py
+       0  backend\app\__init__.py
+    2891  frontend\src\App.css
+    1150  frontend\src\App.jsx
+     902  frontend\src\index.css
+     426  frontend\src\main.jsx
+    1533  frontend\src\nav.js
+     468  frontend\src\api\client.js
+     650  frontend\src\components\ErrorBoundary.jsx
+    6766  frontend\src\components\Layout.jsx
+    2470  frontend\src\components\ui.jsx
+   19190  frontend\src\pages\AnalyticsReport.jsx
+    1244  frontend\src\pages\NotBuilt.jsx
+   14438  frontend\src\pages\Overview.jsx
+   41747  frontend\src\pages\Workspace.jsx
+    5551  docs\powerbi_guide.md
+    3756  docs\project_snapshot.txt
+  208896  data\hallucination.db
+    3830  data\benchmark\sample_v1.json
+    3566  data\documents\pilot_corpus_v1.json
+    2884  data\fixtures\demo_responses_v1.json
+
+=== frontend\package.json ===
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.4",
+    "axios": "^1.21.0",
+    "lucide-react": "^1.67.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.5",
+    "recharts": "^3.10.1",
+    "tailwindcss": "^4.3.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "oxlint": "^1.89.0",
+    "vite": "^8.3.5"
+  }
+}
+
+=== frontend\src\App.jsx ===
+import { Route, Routes } from 'react-router-dom'
+import Layout from './components/Layout'
+import Overview from './pages/Overview'
+import NotBuilt from './pages/NotBuilt'
+import AnalyticsReport from './pages/AnalyticsReport'
+import {
+  AnswerChecker,
+  DataWarehouse,
+  EvaluationCenter,
+  ExperimentStudio,
+  ExportCenter,
+  RagInspector,
+} from './pages/Workspace'
+import { NAV } from './nav'
+
+const PAGES = {
+  '/analytics': AnalyticsReport,
+  '/experiments': ExperimentStudio,
+  '/evaluation': EvaluationCenter,
+  '/rag': RagInspector,
+  '/checker': AnswerChecker,
+  '/warehouse': DataWarehouse,
+  '/export': ExportCenter,
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Overview />} />
+        {NAV.filter((item) => item.to !== '/').map((item) => {
+          const Page = PAGES[item.to]
+          return (
+            <Route
+              key={item.to}
+              path={item.to.slice(1)}
+              element={Page ? <Page /> : <NotBuilt />}
+            />
+          )
+        })}
+        <Route path="*" element={<NotBuilt />} />
+      </Route>
+    </Routes>
+  )
+}
+
+=== frontend\src\nav.js ===
+import {
+  ClipboardCheck,
+  ChartNoAxesCombined,
+  Database,
+  Download,
+  FlaskConical,
+  LayoutDashboard,
+  Search,
+  ShieldCheck,
+} from 'lucide-react'
+
+export const NAV = [
+  {
+    to: '/',
+    label: 'Overview',
+    icon: LayoutDashboard,
+    ready: true,
+    description: 'System status and reliability metrics.',
+  },
+  {
+    to: '/experiments',
+    label: 'Experiment Studio',
+    icon: FlaskConical,
+    ready: true,
+    description: 'Run and compare prompting strategies.',
+  },
+  {
+    to: '/evaluation',
+    label: 'Evaluation Center',
+    icon: ClipboardCheck,
+    ready: true,
+    description: 'Evaluate AI responses and factual claims.',
+  },
+  {
+    to: '/rag',
+    label: 'RAG Inspector',
+    icon: Search,
+    ready: true,
+    description: 'Inspect retrieved evidence and relevance.',
+  },
+  {
+    to: '/checker',
+    label: 'Answer Checker',
+    icon: ShieldCheck,
+    ready: true,
+    description: 'Check answers against supporting evidence.',
+  },
+  {
+    to: '/warehouse',
+    label: 'Data Warehouse',
+    icon: Database,
+    ready: true,
+    description: 'Explore analytical tables and ETL workflows.',
+  },
+  {
+    to: '/analytics',
+    label: 'Analytics & Reports',
+    icon: ChartNoAxesCombined,
+    ready: true,
+    description: 'Slice warehouse results and share dashboard reviews.',
+  },
+  {
+    to: '/export',
+    label: 'Export Center',
+    icon: Download,
+    ready: true,
+    description: 'Prepare analytical data exports.',
+  },
+]
+
+=== FRONTEND API CALLS (file:line) ===
+frontend\src\api\client.js:4: export const api = axios.create({ baseURL: '', timeout: 30000 })
+frontend\src\components\Layout.jsx:31: api.get('/api/health')
+frontend\src\pages\AnalyticsReport.jsx:120: const response = await api.get('/api/warehouse/report', { params })
+frontend\src\pages\Overview.jsx:63: api.get('/api/health'),
+frontend\src\pages\Overview.jsx:64: api.get('/api/db-info')
+frontend\src\pages\Workspace.jsx:120: api.get('/api/datasets'),
+frontend\src\pages\Workspace.jsx:121: api.get('/api/experiments'),
+frontend\src\pages\Workspace.jsx:122: api.get('/api/documents'),
+frontend\src\pages\Workspace.jsx:143: await api.post(endpoint)
+frontend\src\pages\Workspace.jsx:158: const response = await api.post('/api/experiments', {
+frontend\src\pages\Workspace.jsx:275: await api.post('/api/evaluations/review', {
+frontend\src\pages\Workspace.jsx:323: const experiments = usePageData(async () => (await api.get('/api/experiments')).data)
+frontend\src\pages\Workspace.jsx:333: api.get(`/api/experiments/${selectedExperimentId}/summary`),
+frontend\src\pages\Workspace.jsx:334: api.get(`/api/experiments/${selectedExperimentId}/evaluations`, { params: { needs_review_only: reviewOnly } }),
+frontend\src\pages\Workspace.jsx:344: const response = await api.post(`/api/experiments/${selectedExperimentId}/evaluate`)
+frontend\src\pages\Workspace.jsx:407: api.get('/api/experiments'),
+frontend\src\pages\Workspace.jsx:408: api.get('/api/datasets'),
+frontend\src\pages\Workspace.jsx:409: api.get('/api/documents'),
+frontend\src\pages\Workspace.jsx:427: api.get(`/api/experiments/${selectedExperimentId}/rag-inspection`)
+frontend\src\pages\Workspace.jsx:438: const response = await api.get('/api/retrieval/search', { params: { q: query, k: 5 } })
+frontend\src\pages\Workspace.jsx:451: const response = await api.get('/api/retrieval/evaluate', { params: { dataset_id: selectedDatasetId, k: 5 } })
+frontend\src\pages\Workspace.jsx:464: await api.post('/api/documents/load-sample')
+frontend\src\pages\Workspace.jsx:523: const response = await api.post('/api/check', {
+frontend\src\pages\Workspace.jsx:571: const [summary, runs] = await Promise.all([api.get('/api/warehouse/summary'), api.get('/api/warehouse/runs')])
+frontend\src\pages\Workspace.jsx:583: const response = await api.post('/api/warehouse/refresh')
+frontend\src\pages\Workspace.jsx:617: return (await api.get('/api/export/manifest')).data
+frontend\src\pages\Workspace.jsx:631: const response = await api.post('/api/export/run')
+
+=== BACKEND ENDPOINTS (live from the running server) ===
+POST /api/datasets/load-sample
+GET /api/datasets
+GET /api/datasets/{dataset_id}/questions
+GET /api/experiments
+POST /api/experiments
+GET /api/experiments/{experiment_id}/responses
+POST /api/experiments/{experiment_id}/evaluate
+GET /api/experiments/{experiment_id}/evaluations
+POST /api/evaluations/review
+GET /api/experiments/{experiment_id}/summary
+POST /api/documents/load-sample
+GET /api/documents
+GET /api/documents/{document_id}/chunks
+GET /api/retrieval/search
+GET /api/retrieval/evaluate
+GET /api/experiments/{experiment_id}/rag-inspection
+POST /api/warehouse/refresh
+GET /api/warehouse/runs
+GET /api/warehouse/summary
+GET /api/warehouse/report
+POST /api/export/run
+GET /api/export/manifest
+POST /api/check
+GET /api/health
+GET /api/db-info
+
+=== FRONTEND BUILD (last 15 lines) ===
