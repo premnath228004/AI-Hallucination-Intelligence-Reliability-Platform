@@ -1,57 +1,28 @@
-# AI Reliability Platform
+# AI Hallucination Intelligence & Reliability Platform
 
-The frontend is a React application built with Vite. Its pages use the FastAPI
-service in `../backend` through the `/api` development proxy.
+A platform that compares basic prompting, improved prompting and retrieval-augmented generation (RAG) on factual questions, including questions that should not be answered. It stores every answer with its provenance, evaluates answers with rules and human review, loads a star-schema data warehouse through an idempotent ETL, exports CSV files for Power BI, and presents everything in a React web application.
 
-## Run locally
+**Live demo:** https://hallucination-intelligence-platform.onrender.com
 
-Open two terminals from the project root.
+> **Demo mode.** All answers are simulated fixtures, not outputs of a language model, so the accuracy values demonstrate the pipeline and are not findings about real models.
+> The free hosting sleeps after about 15 minutes of inactivity (the first load can take about a minute), its storage is ephemeral so data is re-seeded on restart, and there is no authentication. It is a demonstration deployment, not a production system.
 
-### Backend
+## Stack
+FastAPI, SQLAlchemy, SQLite, scikit-learn (TF-IDF), React, Vite, Tailwind CSS, Recharts, Power BI Desktop.
 
-```powershell
-cd backend
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-```
+## Run locally (Windows, PowerShell)
 
-### Frontend
+Backend:
+    cd backend
+    .\venv\Scripts\Activate.ps1
+    python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 
-```powershell
-cd frontend
-npm ci
-npm run dev
-```
+Frontend (second terminal):
+    cd frontend
+    npm install
+    npm run dev
 
-Open the Vite URL printed in the frontend terminal (normally
-`http://localhost:5173`). Keep both processes running. The backend creates any
-missing database tables on startup and uses the existing SQLite database
-without deleting its data.
+Open http://localhost:5173. API documentation: http://127.0.0.1:8000/docs
 
-## First use
-
-1. Confirm the header reports **Backend Online**.
-2. In **Experiment Studio**, load the sample benchmark and pilot evidence corpus
-   if they are not already present.
-3. Run an experiment in **Demo fixtures** mode to try the workflow without
-   configuring a model provider.
-4. Evaluate the experiment, review flagged responses, and inspect stored RAG
-   retrievals in **Evaluation Center** and **RAG Inspector**.
-5. Refresh the **Data Warehouse** before generating Power BI CSV exports in
-   **Export Center**.
-6. Use **Analytics & Reports** to slice the current warehouse snapshot by
-   dataset, experiment, strategy, verdict, or execution mode. The URL preserves
-   those filters; share the filtered link or copy/download the generated
-   insight review. Use Print / Save PDF for a static copy.
-
-Demo answers are simulated fixtures, not real model output. The Answer Checker
-and evaluation pages describe their heuristic limitations in the UI.
-
-## Verify the frontend
-
-```powershell
-npm run lint
-npm run build
-```
+## Documentation
+See the docs folder: DEPLOYMENT.md, FRONTEND_CHANGELOG.md and powerbi_guide.md.
